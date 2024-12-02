@@ -1,0 +1,9 @@
+{
+  "domain": "good_home_heater",
+  "name": "Good Home Heater",
+  "version": "1.0.0",
+  "config_flow": true,
+  "requirements": ["goodhomepy"],
+  "codeowners": ["biker91620"],
+  "documentation": "https://github.com/biker91620/ha-goodhome"
+}

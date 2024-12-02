@@ -1,0 +1,18 @@
+{
+  "title": "Good Home Heater",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Good Home",
+        "description": "Please enter your Good Home credentials.",
+        "data": {
+          "username": "Username",
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Unable to connect to the Good Home service. Please check your credentials."
+    }
+  }
+}

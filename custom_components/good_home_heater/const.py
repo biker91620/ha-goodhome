@@ -1,0 +1,1 @@
+DOMAIN = "good_home_heater"
