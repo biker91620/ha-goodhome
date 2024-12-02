@@ -1,7 +1,11 @@
 import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
+
+from . import login
 from .const import DOMAIN
+from goodhomepy import GoodHomeClient
+
 
 @config_entries.HANDLERS.register(DOMAIN)
 class GoodHomeHeaterConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -17,7 +21,7 @@ class GoodHomeHeaterConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             # Attempt to connect to the API with the provided credentials
             try:
                 client = await self.hass.async_add_executor_job(
-                    lambda: GoodHomeClient(user_input["username"], user_input["password"])
+                    lambda: login(user_input["username"], user_input["password"])
                 )
                 return self.async_create_entry(
                     title="Good Home Heater",

@@ -17,10 +17,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     password = entry.data["password"]
 
     # Initialize your API client with credentials
-    client = GoodHomeClient()
-    client.login(username, password)
-
-    hass.data[DOMAIN][entry.entry_id] = client
+    hass.data[DOMAIN][entry.entry_id] = login(username, password)
 
     # Forward the setup to the platforms (climate, sensor)
     hass.async_create_task(
@@ -41,3 +38,8 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     hass.data[DOMAIN].pop(entry.entry_id)
 
     return True
+
+def login(username: str, password: str) -> GoodHomeClient:
+    client = GoodHomeClient()
+    client.login(username, password)
+    return client
