@@ -2,6 +2,7 @@ import logging
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from .const import DOMAIN
+from goodhomepy import GoodHomeClient
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -16,7 +17,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     password = entry.data["password"]
 
     # Initialize your API client with credentials
-    hass.data[DOMAIN][entry.entry_id] = GoodHomeClient(username, password)
+    client = GoodHomeClient()
+    client.login(username, password)
+
+    hass.data[DOMAIN][entry.entry_id] = client
 
     # Forward the setup to the platforms (climate, sensor)
     hass.async_create_task(
