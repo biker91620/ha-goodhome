@@ -1,18 +1,21 @@
+import logging
+
 import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
 
-from . import login
+from homeassistant.const import CONF_PASSWORD, CONF_EMAIL
 from .const import DOMAIN
-from goodhomepy import GoodHomeClient
 
+DATA_SCHEMA=vol.Schema({vol.Required(CONF_EMAIL): str, vol.Required(CONF_PASSWORD): str})
 
-@config_entries.HANDLERS.register(DOMAIN)
+_LOGGER = logging.getLogger(__name__)
+
 class GoodHomeHeaterConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Good Home Heater."""
 
     VERSION = 1
-    CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_PUSH
+    CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
 
     async def async_step_user(self, user_input=None):
         """Handle the initial step."""
@@ -20,23 +23,13 @@ class GoodHomeHeaterConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             # Attempt to connect to the API with the provided credentials
             try:
-                client = await self.hass.async_add_executor_job(
-                    lambda: login(user_input["username"], user_input["password"])
-                )
-                return self.async_create_entry(
-                    title="Good Home Heater",
-                    data=user_input,
-                )
-            except Exception:  # Catch the actual exception thrown during connection
+                return self.async_create_entry(title="Good Home Heater",data=user_input)
+            except Exception as err:
+                _LOGGER.exception("Unexpected exception", err)
                 errors["base"] = "cannot_connect"
 
         return self.async_show_form(
-            step_id="user",
-            data_schema=vol.Schema({
-                vol.Required("username"): str,
-                vol.Required("password"): str,
-            }),
-            errors=errors,
+            step_id="user", data_schema=DATA_SCHEMA, errors=errors,
         )
 
     @staticmethod
