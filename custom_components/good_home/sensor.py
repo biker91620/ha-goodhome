@@ -16,6 +16,7 @@ async def async_setup_entry(hass, config_entry, async_add_devices):
     for idx, device in enumerate(coordinator.data):
         entities.append(GoodHomeTemperatureSensor(coordinator, idx))
         entities.append(GoodHomeHumiditySensor(coordinator, idx))
+
     async_add_devices(entities)
 
 
@@ -37,7 +38,7 @@ class GoodHomeTemperatureSensor(CoordinatorEntity, SensorEntity):
         return self.coordinator.data[self.idx].name
 
     @property
-    def native_temperature(self) -> float:
+    def native_value(self) -> float:
         return self.coordinator.data[self.idx].state["currentTemp"]
 
 
@@ -58,5 +59,5 @@ class GoodHomeHumiditySensor(CoordinatorEntity, SensorEntity):
         return self.coordinator.data[self.idx].name
 
     @property
-    def native_temperature(self) -> float:
+    def native_value(self) -> float:
         return self.coordinator.data[self.idx].state["humidity"]

@@ -5,6 +5,8 @@ from homeassistant.core import HomeAssistant
 
 from .const import DOMAIN
 from .coordinator import GoodHomeCoordinator
+from homeassistant.helpers import area_registry as ar
+from homeassistant.helpers import entity_registry as er
 
 PLATFORMS = ["sensor", "climate", "binary_sensor"]
 
@@ -22,6 +24,7 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry):
     await hass.data[DOMAIN][config_entry.entry_id].async_config_entry_first_refresh()
 
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
+
     return True
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
