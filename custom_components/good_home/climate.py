@@ -1,8 +1,7 @@
 import logging
 
 from homeassistant.components.climate import ClimateEntity
-from homeassistant.components.climate.const import (
-    SUPPORT_TARGET_TEMPERATURE, HVACMode)
+from homeassistant.components.climate.const import ( HVACMode, ClimateEntityFeature)
 from homeassistant.const import UnitOfTemperature
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -10,13 +9,12 @@ from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
-SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE
+SUPPORT_FLAGS = ClimateEntityFeature.TARGET_TEMPERATURE
 
 async def async_setup_entry(hass, config_entry, async_add_devices):
     """Set up entry."""
     coordinator = hass.data[DOMAIN][config_entry.entry_id]
     async_add_devices([GoodHomeHeater(coordinator, idx) for idx, device in enumerate(coordinator.data)])
-
 
 class GoodHomeHeater(ClimateEntity, CoordinatorEntity):
 

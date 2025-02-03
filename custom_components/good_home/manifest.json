@@ -3,7 +3,7 @@
   "name": "Good Home",
   "version": "1.0.0",
   "config_flow": true,
-  "requirements": ["goodhomepy==1.1.1", "pydantic"],
+  "requirements": ["goodhomepy==1.1.2", "pydantic"],
   "codeowners": ["biker91620"],
   "documentation": "https://github.com/biker91620/ha-goodhome"
 }
